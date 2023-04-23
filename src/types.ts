@@ -10,9 +10,9 @@ export interface SubjectInfo {
 export type Action
   = ActionUpdateSubject
   | ActionGetSubjectInfo
-  | ActionGetTotalSubjects
+  | ActionGetSubjectIDs
   ;
 
 export type ActionUpdateSubject = { action: "update"; json: SubjectInfo };
 export type ActionGetSubjectInfo = { action: "getSubjectInfo"; id: SubjectID };
-export type ActionGetTotalSubjects = { action: "getTotalSubjects" };
+export type ActionGetSubjectIDs = { action: "getSubjectIDs" };

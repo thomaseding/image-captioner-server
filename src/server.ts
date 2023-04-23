@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { Action, SubjectInfo } from "./types";
+import { Action, SubjectID, SubjectInfo } from "./types";
 import { PathType, ROOT_DIR, getCaptionPath, getSubjectInfo, getSubjectsDir } from "./utils";
 
 const PORT = process.env.PORT || 3000;
@@ -53,8 +53,8 @@ app.post("/api", (req, res) => {
       sendAsyncJson(action, res, getSubjectInfo(action.id));
       break;
 
-    case "getTotalSubjects":
-      sendAsyncJson(action, res, getTotalSubjects());
+    case "getSubjectIDs":
+      sendAsyncJson(action, res, getSubjectIDs());
       break;
 
     default:
@@ -74,8 +74,9 @@ function updateSubjectInfo(subject: SubjectInfo): void {
   fs.writeFileSync(captionPath, subject.caption);
 }
 
-function getTotalSubjects(): number {
+function getSubjectIDs(): SubjectID[] {
   const dir = path.join(getSubjectsDir(PathType.Absolute), "images");
-  const files = fs.readdirSync(dir)
-  return files.length;
+  const filesExt = fs.readdirSync(dir)
+  const filesNoExt = filesExt.map((file) => path.parse(file).name);
+  return filesNoExt;
 }
